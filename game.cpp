@@ -33,7 +33,7 @@ void Blackjack::game() {
         std::cout << "\n----------\n\nShuffling deck...\n";
         Deck deck = make_random_deck();
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        
+
         Hand dealer_hand{};
         Hand player_hand{};
 
@@ -149,8 +149,8 @@ std::string hand_to_str(const Hand& h) {
 // If show_hidden_card == false, the first card is hidden.
 // Otherwise, functionality is the same as hand_to_str(const Hand&).
 std::string hand_to_str(const Hand& h, bool show_hidden_card) {
-    std::string s{};
     if (!show_hidden_card) {
+        std::string s{};
         s.append("?? ");
         for (auto it = ++h.begin(); it != h.end(); ++it) {
             s.append(Cards::make_string(it->value()));
@@ -161,19 +161,11 @@ std::string hand_to_str(const Hand& h, bool show_hidden_card) {
         if (!s.empty()) {
             s.pop_back();
         }
+        return s;
     }
     else {
-        for (auto card : h) {
-            s.append(Cards::make_string(card.value()));
-            s.append(Cards::make_string(card.suit()));
-            s.append(" ");
-        }
-        // remove trailing space if hand is not empty
-        if (!s.empty()) {
-            s.pop_back();
-        }
+        return hand_to_str(h);
     }
-    return s;
 }
 
 int hand_value(const Hand& h) {
@@ -246,8 +238,8 @@ int hand_value(const Hand& h) {
 // added to the overall hand_value.
 // Otherwise, functionality is the same as hand_value(const Hand&).
 int hand_value(const Hand& h, bool add_hidden_card) {
-    int i{};
     if (!add_hidden_card) {
+        int i{};
         for (auto it = ++h.begin(); it != h.end(); ++it) {
             switch (it->value()) {
             case Cards::Value::ace: {
@@ -309,92 +301,33 @@ int hand_value(const Hand& h, bool add_hidden_card) {
             }
             }
         }
+        return i;
     }
     else {
-        for (auto card : h) {
-            switch (card.value()) {
-            case Cards::Value::ace: {
-                if (i > 10) {
-                    i += 1;
-                }
-                else {
-                    i += 11;
-                }
-                break;
-            }
-            case Cards::Value::two: {
-                i += 2;
-                break;
-            }
-            case Cards::Value::three: {
-                i += 3;
-                break;
-            }
-            case Cards::Value::four: {
-                i += 4;
-                break;
-            }
-            case Cards::Value::five: {
-                i += 5;
-                break;
-            }
-            case Cards::Value::six: {
-                i += 6;
-                break;
-            }
-            case Cards::Value::seven: {
-                i += 7;
-                break;
-            }
-            case Cards::Value::eight: {
-                i += 8;
-                break;
-            }
-            case Cards::Value::nine: {
-                i += 9;
-                break;
-            }
-            case Cards::Value::ten: {
-                i += 10;
-                break;
-            }
-            case Cards::Value::jack: {
-                i += 10;
-                break;
-            }
-            case Cards::Value::queen: {
-                i += 10;
-                break;
-            }
-            case Cards::Value::king: {
-                i += 10;
-                break;
-            }
-            }
-        }
+        return hand_value(h);
     }
-    return i;
 }
 
 void print_hands(const Hand& player_hand, const Hand& dealer_hand) {
-    std::cout << "Dealer: " << hand_to_str(dealer_hand) << " - " << hand_value(dealer_hand)
-        << '\n';
-    std::cout << "Player: " << hand_to_str(player_hand) << " - " << hand_value(player_hand)
-        << '\n';
+    std::cout << "Dealer: " << hand_to_str(dealer_hand) << " - "
+        << hand_value(dealer_hand) << '\n';
+    std::cout << "Player: " << hand_to_str(player_hand) << " - "
+        << hand_value(player_hand) << '\n';
 }
 
 // If show_hidden_card == false, the first card and its value is
 // hidden. Otherwise, functionality is the same as
 // print_hands(const Hand& player_hand, const Hand& dealer_hand)
-void print_hands(const Hand& player_hand, const Hand& dealer_hand, bool show_hidden_card) {
+void print_hands(const Hand& player_hand, const Hand& dealer_hand,
+            bool show_hidden_card) {
     if (show_hidden_card) {
         print_hands(player_hand, dealer_hand);
     }
     else {
-        std::cout << "Dealer: " << hand_to_str(dealer_hand, false) << " - ?+" << hand_value(dealer_hand, false)
-            << '\n';
-        std::cout << "Player: " << hand_to_str(player_hand) << " - " << hand_value(player_hand)
-            << '\n';
+        std::cout << "Dealer: " << hand_to_str(dealer_hand, false) << " - ?+"
+            << hand_value(dealer_hand, false) << '\n';
+        std::cout << "Player: " << hand_to_str(player_hand) << " - "
+            << hand_value(player_hand) << '\n';
     }
 }
 

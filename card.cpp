@@ -1,4 +1,4 @@
-﻿#include <iostream>
+﻿#include <ostream>
 #include <string>
 #include <cassert>
 
@@ -21,17 +21,17 @@ Cards::Value Cards::Card::value() const {
 
 std::string Cards::make_string(Suit s) {
 #ifdef _WIN32
-    // workaround for VS2013's lack of u8 string literals, constexpr
-    // and Windows-1252 code page format
+    // workaround for VS2013's Windows-1252 code page format and lack
+    // of u8 string literals 
     const auto club = "C";
     const auto diamond = "D";
     const auto heart = "H";
     const auto spade = "S";
 #else
-    constexpr auto club = u8"♣";
-    constexpr auto diamond = u8"♦";
-    constexpr auto heart = u8"♥";
-    constexpr auto spade = u8"♠";
+    const auto club = u8"♣";
+    const auto diamond = u8"♦";
+    const auto heart = u8"♥";
+    const auto spade = u8"♠";
 #endif
     switch (s) {
     case Cards::Suit::club: {
