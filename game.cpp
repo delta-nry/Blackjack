@@ -51,6 +51,12 @@ void Blackjack::game() {
             print_hands(player_hand, dealer_hand);
             std::cout << "\nDealer and player have blackjack; push\n";
         }
+        else if (hand_value(dealer_hand) != 21
+                        && hand_value(player_hand) == 21) {
+            std::cout << '\n';
+            print_hands(player_hand, dealer_hand);
+            std::cout << "\nPlayer has blackjack; player wins\n";
+        }
         else {
             std::string player_sel{};
             while (player_sel != "s") {
