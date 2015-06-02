@@ -6,10 +6,7 @@
 
 using namespace DNRY;
 
-Cards::Card::Card(const Suit& suit, const Value& value) {
-    s = suit;
-    v = value;
-}
+Cards::Card::Card(const Suit& suit, const Value& value) : s{suit}, v{value} {}
 
 Cards::Suit Cards::Card::suit() const {
     return s;
