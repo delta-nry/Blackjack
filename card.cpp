@@ -19,7 +19,7 @@ Cards::Value Cards::Card::value() const {
 std::string Cards::make_string(Suit s) {
 #ifdef _WIN32
     // workaround for VS2013's Windows-1252 code page format and lack
-    // of u8 string literals 
+    // of u8 string literals
     const auto club = "C";
     const auto diamond = "D";
     const auto heart = "H";
